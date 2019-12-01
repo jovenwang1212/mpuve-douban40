@@ -76,23 +76,18 @@ export default {
   },
   methods: {
     getMovies (cate) {
-      wx.request({
-        url: `https://api.douban.com/v2/movie/${cate.param}`,
+      this.$request({
+        url: `/v2/movie/${cate.param}`,
         data: {
           apikey: '0df993c66c0c636e29ecbb5344252a4a'
-        },
-        // 看实际情况是否需要写content-type
-        header: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        success: res => {
-          console.log(res)
-          let subjects = res.data.subjects
-          subjects.forEach(v => {
-            v.starNum = Math.ceil(v.rating.average / 2)
-          })
-          cate.list = subjects
         }
+      }).then(res => {
+        console.log(res)
+        let subjects = res.data.subjects
+        subjects.forEach(v => {
+          v.starNum = Math.ceil(v.rating.average / 2)
+        })
+        cate.list = subjects
       })
     }
   }
