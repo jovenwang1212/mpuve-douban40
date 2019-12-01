@@ -7,7 +7,7 @@
     </div>
 
     <!-- 影院热映 -->
-    <div v-if="categoryList[0].list.length&&categoryList[1].list.length">
+    <div v-if="categoryList[0].list.length && categoryList[1].list.length">
       <div
         class="movie-item"
         v-for="(cate, i) in categoryList"
@@ -15,7 +15,7 @@
       >
         <div class="title">
           <span>{{ cate.name }}</span>
-          <span class="more-link">更多</span>
+          <span class="more-link" @click="toMore(cate.param)">更多</span>
         </div>
         <scroll-view class="scroll-view_H" scroll-x="true" style="width: 100%">
           <view
@@ -48,6 +48,7 @@
         </scroll-view>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -57,7 +58,7 @@ export default {
     return {
       categoryList: [
         {
-          name: '影院热映',
+          name: `影院热映`,
           param: 'in_theaters',
           list: []
         },
@@ -75,6 +76,10 @@ export default {
     })
   },
   methods: {
+    // 跳转到more页面
+    toMore (param) {
+      wx.navigateTo({ url: '/pages/more/main?param=' + param })
+    },
     getMovies (cate) {
       this.$request({
         url: `/v2/movie/${cate.param}`,
